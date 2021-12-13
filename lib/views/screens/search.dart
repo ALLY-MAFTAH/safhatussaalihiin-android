@@ -1,11 +1,14 @@
 import 'package:better_player/better_player.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/rendering.dart';
 import 'package:flutter_image/network.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:safhatussaalihiin/api.dart';
+import 'package:safhatussaalihiin/models/Post.dart';
 import 'package:safhatussaalihiin/providers/data_provider.dart';
 import 'package:provider/provider.dart';
+import 'package:safhatussaalihiin/views/screens/searched_media.dart';
 
 class Search extends StatefulWidget {
   final DataProvider dataObject;
@@ -17,7 +20,10 @@ class Search extends StatefulWidget {
 
 class _SearchState extends State<Search> {
   DateTime selectedDate = DateTime.now();
+  List<Post> filteredPosts = [];
+  String tappedDate = DateTime.now().toString();
   final _scaffoldKey = GlobalKey<ScaffoldState>();
+  List<Widget> listViews = <Widget>[];
 
   _selectDate(BuildContext context) async {
     print(selectedDate);
@@ -30,12 +36,28 @@ class _SearchState extends State<Search> {
     if (picked != null && picked != selectedDate)
       setState(() {
         selectedDate = picked;
+
+        filteredPosts = [];
+        for (var i = 0; i < widget.dataObject.posts.length; i++) {
+          if (widget.dataObject.posts[i].date ==
+              "${selectedDate.toLocal()}".split(' ')[0]) {
+            filteredPosts.add(widget.dataObject.posts[i]);
+          }
+        }
+
+        Navigator.push(context, MaterialPageRoute(builder: (_) {
+          return SearchedMedia(
+            searchedDate: selectedDate,
+            posts: filteredPosts,
+          );
+        }));
       });
   }
 
   @override
   void initState() {
     super.initState();
+    filteredPosts = [];
   }
 
   @override
@@ -57,38 +79,40 @@ class _SearchState extends State<Search> {
               Colors.amber[50]!.withOpacity(0.7), BlendMode.lighten),
         )),
         child: Column(children: [
-          InkWell(
-            child: Container(
-              height: 65,
-              padding: EdgeInsets.all(5),
-              margin: EdgeInsets.all(4),
-              decoration: BoxDecoration(
-                  color: Colors.brown,
-                  borderRadius: BorderRadius.only(
-                      bottomLeft: Radius.circular(10),
-                      bottomRight: Radius.circular(10))),
-              width: MediaQuery.of(context).size.width,
-              child: ListTile(
-                leading: Icon(Icons.today, color: Colors.white),
-                title: Text(
-                  "${selectedDate.toLocal()}".split(' ')[0],
-                  style: TextStyle(
-                      fontSize: 15,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.white),
-                ),
-                trailing: Icon(
-                  FontAwesomeIcons.angleDown,
-                  color: Colors.white,
-                ),
-              ),
-            ),
-            onTap: () {
-              setState(() {
-                _selectDate(context);
-              });
-            },
-          ),
+          _dataObject.showSearchBar
+              ? InkWell(
+                  child: Container(
+                    height: 65,
+                    padding: EdgeInsets.all(5),
+                    margin: EdgeInsets.all(4),
+                    decoration: BoxDecoration(
+                        color: Colors.brown,
+                        borderRadius: BorderRadius.only(
+                            bottomLeft: Radius.circular(10),
+                            bottomRight: Radius.circular(10))),
+                    width: MediaQuery.of(context).size.width,
+                    child: ListTile(
+                      leading: Icon(Icons.today, color: Colors.white),
+                      title: Text(
+                        "${selectedDate.toLocal()}".split(' ')[0],
+                        style: TextStyle(
+                            fontSize: 15,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.white),
+                      ),
+                      trailing: Icon(
+                        FontAwesomeIcons.angleDown,
+                        color: Colors.white,
+                      ),
+                    ),
+                  ),
+                  onTap: () {
+                    setState(() {
+                      _selectDate(context);
+                    });
+                  },
+                )
+              : Container(),
           Expanded(
             child: CustomScrollView(
               physics: BouncingScrollPhysics(),
@@ -96,184 +120,166 @@ class _SearchState extends State<Search> {
                 SliverList(
                     delegate: SliverChildBuilderDelegate(
                         (BuildContext context, int index) {
-                  return _dataObject.pictures[index].date ==
-                          "${selectedDate.toLocal()}".split(' ')[0]
-                      ? Padding(
-                          padding: EdgeInsets.only(left: 10, top: 5, right: 10),
-                          child: Container(
-                            child: Column(
-                              children: [
-                                Card(
-                                    color: Colors.grey[300],
-                                    elevation: 8,
-                                    child: Column(
-                                      children: [
-                                        Container(
-                                          child: Image(
-                                            image: NetworkImageWithRetry(api +
-                                                "picture/file/" +
-                                                _dataObject.pictures[index].id
-                                                    .toString()),
-                                            fit: BoxFit.cover,
-                                          ),
-                                        ),
-                                        Container(
-                                          color: Colors.brown,
-                                          height: 1.5,
-                                        ),
-                                        Container(
-                                          child: TextButton.icon(
-                                              style: TextButton.styleFrom(
-                                                primary: Colors.black
-                                                    .withOpacity(0.4),
-                                              ),
-                                              onPressed: () {},
-                                              icon: Icon(
-                                                FontAwesomeIcons.download,
-                                                size: 18,
-                                                color: Colors.brown[900],
-                                              ),
-                                              label: Text("Save",
-                                                  style: TextStyle(
-                                                      color:
-                                                          Colors.brown[900]))),
-                                        )
-                                      ],
-                                    )),
-                              ],
+                  return Padding(
+                    padding: EdgeInsets.only(left: 10, top: 5, right: 10),
+                    child: InkWell(
+                      onTap: () {
+                        setState(() {
+                          filteredPosts = [];
+                          tappedDate = _dataObject.posts[index].date;
+                          for (var i = 0;
+                              i < widget.dataObject.posts.length;
+                              i++) {
+                            if (widget.dataObject.posts[i].date == tappedDate) {
+                              filteredPosts.add(widget.dataObject.posts[i]);
+                            }
+                          }
+                          Navigator.push(context,
+                              MaterialPageRoute(builder: (_) {
+                            return SearchedMedia(
+                              searchedDate: tappedDate,
+                              posts: filteredPosts,
+                            );
+                          }));
+                        });
+                      },
+                      child: Column(
+                        children: [
+                          Card(
+                            color: Colors.grey[300],
+                            elevation: 8,
+                            child: Container(
+                              child: Image(
+                                image: NetworkImageWithRetry(api +
+                                    "post/picture_file_1/" +
+                                    _dataObject.posts[index].id.toString()),
+                                fit: BoxFit.cover,
+                              ),
                             ),
                           ),
-                        )
-                      : Container();
-                }, childCount: _dataObject.pictures.length)),
-                SliverList(
-                    delegate: SliverChildBuilderDelegate(
-                        (BuildContext context, int index) => _dataObject
-                                    .videos[index].date ==
-                                "${selectedDate.toLocal()}".split(' ')[0]
-                            ? Card(
-                                margin: EdgeInsets.only(
-                                    left: 15, top: 10, right: 15, bottom: 10),
-                                color: Colors.grey[300],
-                                elevation: 8,
-                                child: Column(
-                                  children: [
-                                    Container(
-                                      child: BetterPlayer.network(
-                                        api +
-                                            "video/file/" +
-                                            _dataObject.videos[index].id
-                                                .toString(),
-                                        betterPlayerConfiguration:
-                                            BetterPlayerConfiguration(
-                                          aspectRatio: 16 / 15,
-                                        ),
+                          _dataObject.posts[index].pictureFile2 != null
+                              ? Card(
+                                  color: Colors.grey[300],
+                                  elevation: 8,
+                                  child: Container(
+                                    child: Image(
+                                      image: NetworkImageWithRetry(api +
+                                          "post/picture_file_2/" +
+                                          _dataObject.posts[index].id
+                                              .toString()),
+                                      fit: BoxFit.cover,
+                                    ),
+                                  ),
+                                )
+                              : Container(),
+                          _dataObject.posts[index].pictureFile3 != null
+                              ? Card(
+                                  color: Colors.grey[300],
+                                  elevation: 8,
+                                  child: Container(
+                                    child: Image(
+                                      image: NetworkImageWithRetry(api +
+                                          "post/picture_file_3/" +
+                                          _dataObject.posts[index].id
+                                              .toString()),
+                                      fit: BoxFit.cover,
+                                    ),
+                                  ),
+                                )
+                              : Container(),
+                          Card(
+                            margin: EdgeInsets.only(
+                                left: 15, top: 10, right: 15, bottom: 10),
+                            color: Colors.grey[300],
+                            elevation: 8,
+                            child: Container(
+                              child: BetterPlayer.network(
+                                api +
+                                    "post/video_file_1/" +
+                                    _dataObject.posts[index].id.toString(),
+                                betterPlayerConfiguration:
+                                    BetterPlayerConfiguration(
+                                  aspectRatio: 16 / 15,
+                                ),
+                              ),
+                            ),
+                          ),
+                          _dataObject.posts[index].videoFile2 != null
+                              ? Card(
+                                  margin: EdgeInsets.only(
+                                      left: 15, top: 10, right: 15, bottom: 10),
+                                  color: Colors.grey[300],
+                                  elevation: 8,
+                                  child: Container(
+                                    child: BetterPlayer.network(
+                                      api +
+                                          "post/video_file_2/" +
+                                          _dataObject.posts[index].id
+                                              .toString(),
+                                      betterPlayerConfiguration:
+                                          BetterPlayerConfiguration(
+                                        aspectRatio: 16 / 15,
                                       ),
                                     ),
-                                    Container(
-                                        // child: VideosPlayer(networkVideos: [
-                                        //   NetworkVideo(
-                                        //       videoUrl: api +
-                                        //           "video/file/" +
-                                        //           _dataObject.videos[index].id
-                                        //               .toString())
-                                        // ]),
-                                        ),
-                                    Container(
-                                      color: Colors.brown,
-                                      height: 1.5,
-                                    ),
-                                    Container(
-                                      child: TextButton.icon(
-                                          style: TextButton.styleFrom(
-                                            primary:
-                                                Colors.black.withOpacity(0.4),
-                                          ),
-                                          onPressed: () {},
-                                          icon: Icon(
-                                            FontAwesomeIcons.download,
-                                            size: 18,
-                                            color: Colors.brown[900],
-                                          ),
-                                          label: Text("Save",
-                                              style: TextStyle(
-                                                  color: Colors.brown[900]))),
-                                    )
-                                  ],
-                                ),
-                              )
-                            : Container(),
-                        childCount: _dataObject.videos.length)),
-                SliverList(
-                    delegate: SliverChildListDelegate([
-                  Padding(
-                    padding: const EdgeInsets.all(15),
-                    child: Divider(
-                      height: 0,
-                      thickness: 5,
-                      color: Colors.brown[300],
-                    ),
-                  )
-                ])),
-                SliverToBoxAdapter(
-                    child: Container(
-                  height: MediaQuery.of(context).size.height / 3,
-                  child: ListView.builder(
-                    scrollDirection: Axis.horizontal,
-                    itemBuilder: (BuildContext context, int index) => Container(
-                      padding: EdgeInsets.only(left: 5),
-                      child: Image(
-                        image: NetworkImageWithRetry(api +
-                            "picture/file/" +
-                            _dataObject.pictures[index].id.toString()),
-                        fit: BoxFit.cover,
+                                  ),
+                                )
+                              : Container(),
+                        ],
                       ),
                     ),
-                    itemCount: _dataObject.pictures.length,
-                  ),
-                )),
-                SliverList(
-                    delegate: SliverChildListDelegate([
-                  SizedBox(
-                    height: 10,
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.all(1),
-                    child: Divider(
-                      height: 0,
-                      thickness: 2,
-                      color: Colors.brown[300],
-                    ),
-                  )
-                ])),
-                SliverToBoxAdapter(
-                    child: Container(
-                  height: 200,
-                  // height: MediaQuery.of(context).size.height*3/5,
-                  child: ListView.builder(
-                    scrollDirection: Axis.horizontal,
-                    itemBuilder: (BuildContext context, int index) => Container(
-                      // height: MediaQuery.of(context).size.height,
-                      // width: MediaQuery.of(context).size.width*3/4,
-                      padding: EdgeInsets.only(left: 5),
-                      child: AspectRatio(
-                        aspectRatio: 9 / 6,
-                        child: BetterPlayer.network(
-                          api +
-                              "video/file/" +
-                              _dataObject.videos[index].id.toString(),
-                          betterPlayerConfiguration: BetterPlayerConfiguration(
-                            aspectRatio: 8 / 7,
-                          ),
-                        ),
-                      ),
-                    ),
-                    itemCount: _dataObject.videos.length,
-                  ),
-                ))
+                  );
+                }, childCount: _dataObject.posts.length)),
               ],
             ),
-          ),
+          )
         ]));
   }
 }
+
+
+// Padding(
+//                             padding: index.isEven
+//                                 ? const EdgeInsets.only(
+//                                     left: 3, top: 3, right: 0)
+//                                 : const EdgeInsets.only(
+//                                     left: 3, top: 3, right: 3),
+//                             child: InkWell(
+//                                 onTap: () {
+//                                   setState(() {
+//                                     filteredPosts = [];
+//                                     tappedDate = _dataObject.posts[index].date;
+//                                     for (var i = 0;
+//                                         i < widget.dataObject.posts.length;
+//                                         i++) {
+//                                       if (widget.dataObject.posts[i].date ==
+//                                           tappedDate) {
+//                                         filteredPosts
+//                                             .add(widget.dataObject.posts[i]);
+//                                       }
+//                                     }
+//                                     Navigator.push(context,
+//                                         MaterialPageRoute(builder: (_) {
+//                                       return SearchedMedia(
+//                                         searchedDate: tappedDate,
+//                                         posts: filteredPosts,
+//                                       );
+//                                     }));
+//                                   });
+//                                 },
+//                                 child: Container(
+//                                   decoration: BoxDecoration(
+//                                       borderRadius: BorderRadius.circular(5),
+//                                       color: Colors.brown[300]),
+//                                   padding: EdgeInsets.all(1),
+//                                   child: Container(
+//                                     decoration: BoxDecoration(
+//                                         image: DecorationImage(
+//                                           image: NetworkImageWithRetry(api +
+//                                               'post/picture_file_1/' +
+//                                               _dataObject.posts[index].id
+//                                                   .toString()),
+//                                         ),
+//                                         borderRadius: BorderRadius.circular(5)),
+//                                   ),
+//                                 )),
+//                           ),

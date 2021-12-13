@@ -7,12 +7,12 @@ import 'package:http/http.dart' as http;
 import 'package:flutter/cupertino.dart';
 import 'package:safhatussaalihiin/api.dart';
 import 'package:safhatussaalihiin/models/LiveStream.dart';
-import 'package:safhatussaalihiin/models/Picture.dart';
-import 'package:safhatussaalihiin/models/Video.dart';
+import 'package:safhatussaalihiin/models/Post.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter/material.dart';
 
 class DataProvider extends ChangeNotifier {
+  bool showSearchBar = false;
   DateTime today = DateTime.now();
   //
   //
@@ -54,85 +54,46 @@ class DataProvider extends ChangeNotifier {
   //
   //
   //
-  // ********** PICTURES DATA ***********
-  List<Picture> _pictures = [];
-  List<Picture> _todayPictures = [];
+  // ********** POSTS DATA ***********
+  List<Post> _posts = [];
+  List<Post> _todayPosts = [];
 
-  List<Picture> get pictures => _pictures;
-  List<Picture> get todayPictures => _todayPictures;
+  List<Post> get posts => _posts;
+  List<Post> get todayPosts => _todayPosts;
 
-  Future<void> getAllPictures() async {
-    List<Picture> _fetchedPictures = [];
+  Future<void> getAllPosts() async {
+    List<Post> _fetchedPosts = [];
     try {
-      final response = await http.get(Uri.parse(api + 'pictures/'));
+      final response = await http.get(Uri.parse(api + 'posts/'));
       print("hiyo hapo chini");
       print(response.toString());
       if (response.statusCode == 200) {
         final Map<String, dynamic> data = json.decode(response.body);
-        data['pictures'].forEach(($picture) {
-          final pictureDataSet = Picture.fromMap($picture);
-          _fetchedPictures.add(pictureDataSet);
+        data['posts'].forEach(($post) {
+          final postDataSet = Post.fromMap($post);
+          _fetchedPosts.add(postDataSet);
         });
-        _pictures = _fetchedPictures;
-        _pictures.forEach(($pic) {
+        _posts = _fetchedPosts;
+        _posts.forEach(($pic) {
           if ($pic.date == "${today.toLocal()}".split(' ')[0]) {
             print("Kuna hii ya leooooooo" + $pic.date);
-            _todayPictures.add($pic);
+            _todayPosts.add($pic);
           }
         });
         notifyListeners();
-        print(_fetchedPictures);
-        print(_fetchedPictures.length);
-        print(_todayPictures);
-        print(_todayPictures.length);
+        print(_fetchedPosts);
+        print(_fetchedPosts.length);
+        print(_todayPosts);
+        print(_todayPosts.length);
       }
     } catch (e) {
-      print("Pictures fetching failed");
+      print("Posts fetching failed");
       print(e);
     }
   }
 
-  //
-  //
-  //
-  // ********** PICTURES DATA ***********
-  List<Video> _videos = [];
-  List<Video> _todayVideos = [];
 
-  List<Video> get videos => _videos;
-  List<Video> get todayVideos => _todayVideos;
-
-  Future<void> getAllVideos() async {
-    List<Video> _fetchedVideos = [];
-    try {
-      final response = await http.get(Uri.parse(api + 'videos/'));
-      print("hiyo hapo chini");
-      print(response.toString());
-      if (response.statusCode == 200) {
-        final Map<String, dynamic> data = json.decode(response.body);
-        data['videos'].forEach(($video) {
-          final videoDataSet = Video.fromMap($video);
-          _fetchedVideos.add(videoDataSet);
-        });
-        _videos = _fetchedVideos;
-        _videos.forEach(($vid) {
-          if ($vid.date == "${today.toLocal()}".split(' ')[0]) {
-            print("Kuna hii ya leooooooo" + $vid.date);
-            _todayVideos.add($vid);
-          }
-        });
-        notifyListeners();
-        print(_fetchedVideos);
-        print(_fetchedVideos.length);
-        print(_todayVideos);
-        print(_todayVideos.length);
-      }
-    } catch (e) {
-      print("Videos fetching failed");
-      print(e);
-    }
-  }
-
+  
   // DOWNLOAD MANAGER
 
   void saveNetworkVideo(String path) async {
@@ -153,7 +114,7 @@ class DataProvider extends ChangeNotifier {
   // String url = "";
   // String title = "";
   // String progress = "";
-  // int newPictureIndex = 0;
+  // int newPostIndex = 0;
   // int newVideoIndex = 0;
 
   // Future<void> downloadCard() async {

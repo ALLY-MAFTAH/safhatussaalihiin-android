@@ -22,8 +22,7 @@ class _MyAppState extends State<MyApp> {
   void initState() {
   
     _dataProvider.getAllStreams();
-    _dataProvider.getAllPictures();
-    _dataProvider.getAllVideos();
+    _dataProvider.getAllPosts();
     super.initState();
   }
 

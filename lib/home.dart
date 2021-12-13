@@ -16,8 +16,7 @@ class Home extends StatefulWidget {
 
 class _HomeState extends State<Home> {
   int _selectedIndex = 0;
-  String url = "dffgdg";
-  
+  String url = "Play store link to the app";
 
   @override
   Widget build(BuildContext context) {
@@ -76,7 +75,19 @@ class _HomeState extends State<Home> {
                     onPressed: () {
                       Share.share(url);
                     })
-                : Container()
+                : _selectedIndex == 1
+                    ? IconButton(
+                        icon: Icon(
+                          Icons.search,
+                          color: Colors.white,
+                        ),
+                        onPressed: () {
+                          setState(() {
+                            _dataObject.showSearchBar =
+                                !_dataObject.showSearchBar;
+                          });
+                        })
+                    : Container()
           ],
         ),
         body: _screens[_selectedIndex],
