@@ -67,7 +67,7 @@ class _TodayState extends State<Today> {
       child: Column(
         children: [
           Container(
-            height: 45,
+            height: 65,
             padding: EdgeInsets.all(5),
             margin: EdgeInsets.all(4),
             decoration: BoxDecoration(
@@ -77,15 +77,18 @@ class _TodayState extends State<Today> {
                     bottomRight: Radius.circular(10))),
             width: MediaQuery.of(context).size.width,
             child: Text(
-              dayName + todayDateMiylad + " M = " + " " + todayDateHijr,
+              dayName + todayDateMiylad + " M\n\n" + " " + todayDateHijr,
               style:
                   TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+              textAlign: TextAlign.center,
             ),
           ),
           Expanded(
             child: _dataObject.todayPosts.isEmpty
                 ? Center(
-                    child: CircularProgressIndicator(),
+                    child: CircularProgressIndicator(
+                      
+                    ),
                     // child: Text("Kadi za leo bado hazijatumwa"),
                   )
                 : CustomScrollView(
@@ -253,72 +256,60 @@ class _TodayState extends State<Today> {
                                         ),
                                       )
                                     : Container(),
-                                 Card(
-                                        margin: EdgeInsets.only(
-                                            left: 15,
-                                            top: 10,
-                                            right: 15,
-                                            bottom: 10),
-                                        color: Colors.grey[300],
-                                        elevation: 8,
-                                        child: Column(
-                                          children: [
-                                            Container(
-                                              child: BetterPlayer.network(
-                                                api +
-                                                    "post/video_file_1/" +
-                                                    _dataObject
-                                                        .todayPosts[index].id
-                                                        .toString(),
-                                                betterPlayerConfiguration:
-                                                    BetterPlayerConfiguration(
-                                                  aspectRatio: 16 / 15,
-                                                ),
-                                              ),
-                                            ),
-                                            Container(
-                                              color: Colors.brown,
-                                              height: 1.5,
-                                            ),
-                                            TextButton.icon(
-                                                style: TextButton.styleFrom(
-                                                    primary: Colors.black
-                                                        .withOpacity(0.4)),
-                                                onPressed: () {
-                                                  setState(() {
-                                                    // _dataObject.url = api +
-                                                    //     "post/video_file_1/" +
-                                                    //     _dataObject.todayPosts[index].id
-                                                    //         .toString();
-
-                                                    // _dataObject.title =
-                                                    //     '$index. Safhatussaalihiin_' +
-                                                    //         _dataObject
-                                                    //             .todayPosts[index]
-                                                    //             .date +
-                                                    //         '.mp4';
-                                                  });
-                                                  // _dataObject.downloadCard();
-                                                },
-                                                icon: Icon(
-                                                  FontAwesomeIcons.download,
-                                                  size: 18,
-                                                  color: Colors.brown[900],
-                                                ),
-                                                label: Text("Save",
-                                                    style: TextStyle(
-                                                        color: Colors
-                                                            .brown[900]))),
-                                          ],
+                                Card(
+                                  color: Colors.grey[300],
+                                  elevation: 8,
+                                  child: Column(
+                                    children: [
+                                      Container(
+                                        child: BetterPlayer.network(
+                                          api +
+                                              "post/video_file_1/" +
+                                              _dataObject.todayPosts[index].id
+                                                  .toString(),
+                                          betterPlayerConfiguration:
+                                              BetterPlayerConfiguration(
+                                            aspectRatio: 16 / 15,
+                                          ),
                                         ),
                                       ),
+                                      Container(
+                                        color: Colors.brown,
+                                        height: 1.5,
+                                      ),
+                                      TextButton.icon(
+                                          style: TextButton.styleFrom(
+                                              primary: Colors.black
+                                                  .withOpacity(0.4)),
+                                          onPressed: () {
+                                            setState(() {
+                                              // _dataObject.url = api +
+                                              //     "post/video_file_1/" +
+                                              //     _dataObject.todayPosts[index].id
+                                              //         .toString();
+
+                                              // _dataObject.title =
+                                              //     '$index. Safhatussaalihiin_' +
+                                              //         _dataObject
+                                              //             .todayPosts[index]
+                                              //             .date +
+                                              //         '.mp4';
+                                            });
+                                            // _dataObject.downloadCard();
+                                          },
+                                          icon: Icon(
+                                            FontAwesomeIcons.download,
+                                            size: 18,
+                                            color: Colors.brown[900],
+                                          ),
+                                          label: Text("Save",
+                                              style: TextStyle(
+                                                  color: Colors.brown[900]))),
+                                    ],
+                                  ),
+                                ),
                                 _dataObject.todayPosts[index].videoFile2 != null
                                     ? Card(
-                                        margin: EdgeInsets.only(
-                                            left: 15,
-                                            top: 10,
-                                            right: 15,
-                                            bottom: 10),
                                         color: Colors.grey[300],
                                         elevation: 8,
                                         child: Column(
@@ -380,9 +371,6 @@ class _TodayState extends State<Today> {
                       }, childCount: _dataObject.todayPosts.length)),
                     ],
                   ),
-          ),
-          SizedBox(
-            height: 40,
           ),
         ],
       ),

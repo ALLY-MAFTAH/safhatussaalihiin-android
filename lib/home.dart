@@ -93,7 +93,6 @@ class _HomeState extends State<Home> {
         bottomNavigationBar: CurvedNavigationBar(
           backgroundColor: Colors.transparent,
           color: Color.fromRGBO(62, 39, 35, 9),
-          // Colors.brown[900]
           buttonBackgroundColor: Colors.brown,
           height: 50,
           animationDuration: Duration(
