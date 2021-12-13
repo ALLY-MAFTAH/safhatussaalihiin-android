@@ -47,13 +47,6 @@ class _LiveState extends State<Live> {
   Widget build(BuildContext context) {
     final _streamObject = Provider.of<DataProvider>(context);
     return Container(
-      decoration: BoxDecoration(
-          image: DecorationImage(
-        image: AssetImage('assets/images/back.jpg'),
-        fit: BoxFit.cover,
-        colorFilter: ColorFilter.mode(
-            Colors.amber[50]!.withOpacity(0.7), BlendMode.lighten),
-      )),
       child: ListView(
         children: [
           Row(

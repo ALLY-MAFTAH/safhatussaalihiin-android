@@ -64,13 +64,6 @@ class _TodayState extends State<Today> {
   Widget build(BuildContext context) {
     final _dataObject = Provider.of<DataProvider>(context);
     return Container(
-      decoration: BoxDecoration(
-          image: DecorationImage(
-        image: AssetImage('assets/images/back.jpg'),
-        fit: BoxFit.cover,
-        colorFilter: ColorFilter.mode(
-            Colors.amber[50]!.withOpacity(0.7), BlendMode.lighten),
-      )),
       child: Column(
         children: [
           Container(

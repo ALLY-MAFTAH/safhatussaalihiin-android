@@ -71,13 +71,6 @@ class _SearchState extends State<Search> {
 
     return Container(
         key: _scaffoldKey,
-        decoration: BoxDecoration(
-            image: DecorationImage(
-          image: AssetImage('assets/images/back.jpg'),
-          fit: BoxFit.cover,
-          colorFilter: ColorFilter.mode(
-              Colors.amber[50]!.withOpacity(0.7), BlendMode.lighten),
-        )),
         child: Column(children: [
           _dataObject.showSearchBar
               ? InkWell(
@@ -235,51 +228,3 @@ class _SearchState extends State<Search> {
         ]));
   }
 }
-
-
-// Padding(
-//                             padding: index.isEven
-//                                 ? const EdgeInsets.only(
-//                                     left: 3, top: 3, right: 0)
-//                                 : const EdgeInsets.only(
-//                                     left: 3, top: 3, right: 3),
-//                             child: InkWell(
-//                                 onTap: () {
-//                                   setState(() {
-//                                     filteredPosts = [];
-//                                     tappedDate = _dataObject.posts[index].date;
-//                                     for (var i = 0;
-//                                         i < widget.dataObject.posts.length;
-//                                         i++) {
-//                                       if (widget.dataObject.posts[i].date ==
-//                                           tappedDate) {
-//                                         filteredPosts
-//                                             .add(widget.dataObject.posts[i]);
-//                                       }
-//                                     }
-//                                     Navigator.push(context,
-//                                         MaterialPageRoute(builder: (_) {
-//                                       return SearchedMedia(
-//                                         searchedDate: tappedDate,
-//                                         posts: filteredPosts,
-//                                       );
-//                                     }));
-//                                   });
-//                                 },
-//                                 child: Container(
-//                                   decoration: BoxDecoration(
-//                                       borderRadius: BorderRadius.circular(5),
-//                                       color: Colors.brown[300]),
-//                                   padding: EdgeInsets.all(1),
-//                                   child: Container(
-//                                     decoration: BoxDecoration(
-//                                         image: DecorationImage(
-//                                           image: NetworkImageWithRetry(api +
-//                                               'post/picture_file_1/' +
-//                                               _dataObject.posts[index].id
-//                                                   .toString()),
-//                                         ),
-//                                         borderRadius: BorderRadius.circular(5)),
-//                                   ),
-//                                 )),
-//                           ),

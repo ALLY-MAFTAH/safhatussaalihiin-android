@@ -33,10 +33,9 @@ class _HomeState extends State<Home> {
       Safhatussaalihiin(),
     ];
     return Scaffold(
-        backgroundColor: Colors.amber[100]!.withOpacity(1),
+        // backgroundColor: Colors.amber[100]!.withOpacity(1),
         appBar: AppBar(
           backgroundColor: Colors.brown[900],
-          toolbarHeight: 45,
           leading: Padding(
             padding: const EdgeInsets.only(
               top: 5,

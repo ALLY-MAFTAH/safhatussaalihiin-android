@@ -35,6 +35,7 @@ class _SearchedMediaState extends State<SearchedMedia> {
           style: TextStyle(fontWeight: FontWeight.bold),
         ),
         centerTitle: true,
+        backgroundColor: Colors.brown[900],
       ),
       body: CustomScrollView(
         physics: BouncingScrollPhysics(),
