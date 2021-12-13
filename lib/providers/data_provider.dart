@@ -1,10 +1,15 @@
 import 'dart:convert';
 import 'dart:async';
+import 'dart:typed_data';
 // import 'package:path/path.dart' as path;
 // ignore: import_of_legacy_library_into_null_safe
-import 'package:gallery_saver/gallery_saver.dart';
+import 'package:path_provider/path_provider.dart';
+import 'package:dio/dio.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter/cupertino.dart';
+import 'package:image_gallery_saver/image_gallery_saver.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:safhatussaalihiin/api.dart';
 import 'package:safhatussaalihiin/models/LiveStream.dart';
 import 'package:safhatussaalihiin/models/Post.dart';
@@ -92,115 +97,43 @@ class DataProvider extends ChangeNotifier {
     }
   }
 
-
-  
   // DOWNLOAD MANAGER
 
-  void saveNetworkVideo(String path) async {
-    GallerySaver.saveVideo(path).then((bool? success) {
-      print('Video is saved');
+  void saveNetworkVideo(String fileUrl) async {
+    var appDocDir = await getTemporaryDirectory();
+    String savePath = appDocDir.path + "/temp.mp4";
+    await Dio().download(fileUrl, savePath, onReceiveProgress: (count, total) {
+      print((count / total * 100).toStringAsFixed(0) + "%");
     });
+    final result = await ImageGallerySaver.saveFile(savePath);
+    print(result);
+    _toastInfo("$result");
     notifyListeners();
   }
 
-  void saveNetworkImage(String path) async {
-    GallerySaver.saveImage(path).then((bool? success) {
-      print('Image is saved');
-    });
+  void saveNetworkImage(String pictureUrl) async {
+    var response = await Dio()
+        .get(pictureUrl, options: Options(responseType: ResponseType.bytes));
+    final result = await ImageGallerySaver.saveImage(
+      Uint8List.fromList(response.data),
+      quality: 60,
+    );
+    print(result);
+    _toastInfo("$result");
     notifyListeners();
+  }
+
+  _toastInfo(String info) {
+    Fluttertoast.showToast(msg: info, toastLength: Toast.LENGTH_LONG);
+  }
+
+  requestPermission() async {
+    Map<Permission, PermissionStatus> statuses = await [
+      Permission.storage,
+    ].request();
+
+    final info = statuses[Permission.storage].toString();
+    print(info);
+    _toastInfo(info);
   }
 }
-  // final Dio _dio = Dio();
-  // String url = "";
-  // String title = "";
-  // String progress = "";
-  // int newPostIndex = 0;
-  // int newVideoIndex = 0;
-
-  // Future<void> downloadCard() async {
-  //   Directory? downloadsDirectory = await getExternalStorageDirectory();
-  //   downloadsDirectory = await DownloadsPathProvider.downloadsDirectory;
-  //   var status = await Permission.storage.status;
-  //   if (!status.isGranted) {
-  //     await Permission.storage.request();
-  //   }
-
-  //   final savePath = path.join(downloadsDirectory.path + "/" + title);
-
-  //   await _startDownload(savePath);
-  // }
-
-  // Future<void> _startDownload(String savePath) async {
-  //   Map<String, dynamic> result = {
-  //     'isSuccess': false,
-  //     'filePath': null,
-  //     'error': null,
-  //   };
-  //   await _showDownloadNotification(progress);
-  //   try {
-  //     final response = await _dio.download(url, savePath,
-  //         onReceiveProgress: _onReceiveProgress);
-  //     result['isSuccess'] = response.statusCode == 200;
-  //     result['filePath'] = savePath;
-  //   } catch (ex) {
-  //     result['error'] = ex.toString();
-  //   } finally {
-  //     // progress = "";
-  //     notifyListeners();
-  //     await _showNotification(result);
-  //   }
-  // }
-
-  // void _onReceiveProgress(int received, int total) {
-  //   if (total != -1) {
-  //     progress = (received / total * 100).toStringAsFixed(0) + "%";
-  //     notifyListeners();
-  //   }
-  // }
-
-  // Future<void> cancelDownload() async {
-  //   _dio.delete(url);
-  // }
-
-  // // *
-
-  // // NOTIFICATION MANAGER
-
-  // Future<void> _showNotification(Map<String, dynamic> downloadStatus) async {
-  //   final android = AndroidNotificationDetails(
-  //       'channel id', 'channel name', 'channel description',
-  //       icon: '@mipmap/safhatussaalihiin',
-  //       priority: Priority.high,
-  //       importance: Importance.max);
-  //   final iOS = IOSNotificationDetails();
-  //   final platform = NotificationDetails();
-  //   final json = jsonEncode(downloadStatus);
-  //   final isSuccess = downloadStatus['isSuccess'];
-
-  //   await flutterLocalNotificationsPlugin.show(
-  //       0, // notification id
-  //       isSuccess ? 'Maa shaa Allah' : "'Afwan !",
-  //       isSuccess
-  //           ? 'Umefanikiwa kupakua kadi hii.'
-  //           : 'Imeshindikana kupakuwa kadi hii.',
-  //       platform,
-  //       payload: json);
-  // }
-
-  // Future<void> _showDownloadNotification(dPrg) async {
-  //   final android = AndroidNotificationDetails(
-  //       'channel id', 'channel name', 'channel description',
-  //       icon: '@mipmap/safhatussaalihiin',
-  //       priority: Priority.high,
-  //       importance: Importance.max);
-  //   final iOS = IOSNotificationDetails();
-  //   final platform = NotificationDetails();
-
-  //   await flutterLocalNotificationsPlugin.show(
-  //     1, // notification id
-  //     "Downloading ...",
-  //     progress,
-  //     platform,
-  //   );
-  // }
-// }

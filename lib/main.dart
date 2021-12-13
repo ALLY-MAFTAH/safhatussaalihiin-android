@@ -1,9 +1,7 @@
-
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:safhatussaalihiin/home.dart';
 import 'package:safhatussaalihiin/providers/data_provider.dart';
-
 
 void main() {
   runApp(MyApp());
@@ -20,12 +18,12 @@ class _MyAppState extends State<MyApp> {
 
   @override
   void initState() {
-  
     _dataProvider.getAllStreams();
     _dataProvider.getAllPosts();
+    _dataProvider.requestPermission();
+
     super.initState();
   }
-
 
   @override
   Widget build(BuildContext context) {

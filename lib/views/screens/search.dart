@@ -163,7 +163,7 @@ class _SearchState extends State<Search> {
                                   setState(() {
                                     _dataObject.saveNetworkImage(api +
                                         "post/picture_file_1/" +
-                                        _dataObject.todayPosts[index].id
+                                        _dataObject.posts[index].id
                                             .toString());
                                   });
                                 },
@@ -206,7 +206,7 @@ class _SearchState extends State<Search> {
                                   setState(() {
                                     _dataObject.saveNetworkImage(api +
                                         "post/picture_file_2/" +
-                                        _dataObject.todayPosts[index].id
+                                        _dataObject.posts[index].id
                                             .toString());
                                   });
                                 },
@@ -250,7 +250,7 @@ class _SearchState extends State<Search> {
                                   setState(() {
                                     _dataObject.saveNetworkImage(api +
                                         "post/picture_file_3/" +
-                                        _dataObject.todayPosts[index].id
+                                        _dataObject.posts[index].id
                                             .toString());
                                   });
                                 },
@@ -293,9 +293,9 @@ class _SearchState extends State<Search> {
                                     primary: Colors.black.withOpacity(0.4)),
                                 onPressed: () {
                                   setState(() {
-                                    _dataObject.saveNetworkImage(api +
+                                    _dataObject.saveNetworkVideo(api +
                                         "post/video_file_1/" +
-                                        _dataObject.todayPosts[index].id
+                                        _dataObject.posts[index].id
                                             .toString());
                                   });
                                 },
@@ -339,9 +339,9 @@ class _SearchState extends State<Search> {
                                     primary: Colors.black.withOpacity(0.4)),
                                 onPressed: () {
                                   setState(() {
-                                    _dataObject.saveNetworkImage(api +
+                                    _dataObject.saveNetworkVideo(api +
                                         "post/video_file_2/" +
-                                        _dataObject.todayPosts[index].id
+                                        _dataObject.posts[index].id
                                             .toString());
                                   });
                                 },

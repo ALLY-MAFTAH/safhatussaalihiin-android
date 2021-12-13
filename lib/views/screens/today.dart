@@ -86,9 +86,7 @@ class _TodayState extends State<Today> {
           Expanded(
             child: _dataObject.todayPosts.isEmpty
                 ? Center(
-                    child: CircularProgressIndicator(
-                      
-                    ),
+                    child: CircularProgressIndicator(),
                     // child: Text("Kadi za leo bado hazijatumwa"),
                   )
                 : CustomScrollView(
@@ -277,34 +275,31 @@ class _TodayState extends State<Today> {
                                         color: Colors.brown,
                                         height: 1.5,
                                       ),
-                                      TextButton.icon(
-                                          style: TextButton.styleFrom(
-                                              primary: Colors.black
-                                                  .withOpacity(0.4)),
-                                          onPressed: () {
-                                            setState(() {
-                                              // _dataObject.url = api +
-                                              //     "post/video_file_1/" +
-                                              //     _dataObject.todayPosts[index].id
-                                              //         .toString();
-
-                                              // _dataObject.title =
-                                              //     '$index. Safhatussaalihiin_' +
-                                              //         _dataObject
-                                              //             .todayPosts[index]
-                                              //             .date +
-                                              //         '.mp4';
-                                            });
-                                            // _dataObject.downloadCard();
-                                          },
-                                          icon: Icon(
-                                            FontAwesomeIcons.download,
-                                            size: 18,
-                                            color: Colors.brown[900],
-                                          ),
-                                          label: Text("Save",
-                                              style: TextStyle(
-                                                  color: Colors.brown[900]))),
+                                      Container(
+                                        child: TextButton.icon(
+                                            style: TextButton.styleFrom(
+                                                primary: Colors.black
+                                                    .withOpacity(0.4)),
+                                            onPressed: () {
+                                              setState(() {
+                                                _dataObject.saveNetworkVideo(
+                                                    api +
+                                                        "post/video_file_1/" +
+                                                        _dataObject
+                                                            .todayPosts[index]
+                                                            .id
+                                                            .toString());
+                                              });
+                                            },
+                                            icon: Icon(
+                                              FontAwesomeIcons.download,
+                                              size: 18,
+                                              color: Colors.brown[900],
+                                            ),
+                                            label: Text("Save",
+                                                style: TextStyle(
+                                                    color: Colors.brown[900]))),
+                                      )
                                     ],
                                   ),
                                 ),
@@ -331,35 +326,33 @@ class _TodayState extends State<Today> {
                                               color: Colors.brown,
                                               height: 1.5,
                                             ),
-                                            TextButton.icon(
-                                                style: TextButton.styleFrom(
-                                                    primary: Colors.black
-                                                        .withOpacity(0.4)),
-                                                onPressed: () {
-                                                  setState(() {
-                                                    // _dataObject.url = api +
-                                                    //     "post/video_file_2/" +
-                                                    //     _dataObject.todayPosts[index].id
-                                                    //         .toString();
-
-                                                    // _dataObject.title =
-                                                    //     '$index. Safhatussaalihiin_' +
-                                                    //         _dataObject
-                                                    //             .todayPosts[index]
-                                                    //             .date +
-                                                    //         '.mp4';
-                                                  });
-                                                  // _dataObject.downloadCard();
-                                                },
-                                                icon: Icon(
-                                                  FontAwesomeIcons.download,
-                                                  size: 18,
-                                                  color: Colors.brown[900],
-                                                ),
-                                                label: Text("Save",
-                                                    style: TextStyle(
-                                                        color: Colors
-                                                            .brown[900]))),
+                                            Container(
+                                              child: TextButton.icon(
+                                                  style: TextButton.styleFrom(
+                                                      primary: Colors.black
+                                                          .withOpacity(0.4)),
+                                                  onPressed: () {
+                                                    setState(() {
+                                                      _dataObject
+                                                          .saveNetworkVideo(api +
+                                                              "post/video_file_2/" +
+                                                              _dataObject
+                                                                  .todayPosts[
+                                                                      index]
+                                                                  .id
+                                                                  .toString());
+                                                    });
+                                                  },
+                                                  icon: Icon(
+                                                    FontAwesomeIcons.download,
+                                                    size: 18,
+                                                    color: Colors.brown[900],
+                                                  ),
+                                                  label: Text("Save",
+                                                      style: TextStyle(
+                                                          color: Colors
+                                                              .brown[900]))),
+                                            )
                                           ],
                                         ),
                                       )

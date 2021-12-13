@@ -207,7 +207,7 @@ class _SearchedMediaState extends State<SearchedMedia> {
                                     primary: Colors.black.withOpacity(0.4)),
                                 onPressed: () {
                                   setState(() {
-                                    _dataObject.saveNetworkImage(api +
+                                    _dataObject.saveNetworkVideo(api +
                                         "post/video_file_1/" +
                                         widget.posts[index].id
                                             .toString());
@@ -253,7 +253,7 @@ class _SearchedMediaState extends State<SearchedMedia> {
                                               Colors.black.withOpacity(0.4)),
                                       onPressed: () {
                                         setState(() {
-                                          _dataObject.saveNetworkImage(api +
+                                          _dataObject.saveNetworkVideo(api +
                                               "post/video_file_2/" +
                                               widget.posts[index].id
                                                   .toString());
