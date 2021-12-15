@@ -20,17 +20,13 @@ class _HomeState extends State<Home> {
 
   @override
   Widget build(BuildContext context) {
-    final _dataObject = Provider.of<DataProvider>(context);
+    final _dataProvider = Provider.of<DataProvider>(context);
 
     List<Widget> _screens = [
-      Today(
-        dataObject: _dataObject,
-      ),
-      Search(
-        dataObject: _dataObject,
-      ),
-      Live(),
-      Safhatussaalihiin(),
+      Today(dataProvider: _dataProvider),
+      Search(dataProvider: _dataProvider),
+      Live(dataProvider: _dataProvider),
+      Safhatussaalihiin(dataProvider: _dataProvider,),
     ];
     return Scaffold(
         // backgroundColor: Colors.amber[100]!.withOpacity(1),
@@ -82,8 +78,8 @@ class _HomeState extends State<Home> {
                         ),
                         onPressed: () {
                           setState(() {
-                            _dataObject.showSearchBar =
-                                !_dataObject.showSearchBar;
+                            _dataProvider.showSearchBar =
+                                !_dataProvider.showSearchBar;
                           });
                         })
                     : Container()

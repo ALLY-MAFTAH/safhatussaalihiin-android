@@ -1,9 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:safhatussaalihiin/providers/data_provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class Safhatussaalihiin extends StatefulWidget {
+   final DataProvider dataProvider;
+
+  const Safhatussaalihiin({Key? key, required this.dataProvider}) : super(key: key);
   @override
   _SafhatussaalihiinState createState() => _SafhatussaalihiinState();
 }
@@ -16,8 +20,12 @@ class _SafhatussaalihiinState extends State<Safhatussaalihiin> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-        child: ListView(
+    return RefreshIndicator( backgroundColor: Colors.brown,
+      color: Colors.white,
+     
+        onRefresh: _reloadPage,
+        child: Container(
+            child: ListView(
           children: [
             Image(
               image: AssetImage("assets/icons/safhatussaalihiin.png"),
@@ -102,10 +110,10 @@ class _SafhatussaalihiinState extends State<Safhatussaalihiin> {
                   image: AssetImage("assets/images/Picture5.png")),
             ),
           ],
-        ));
+        )));
   }
 
- void _launchURL(String linkUrl) async {
+  void _launchURL(String linkUrl) async {
     if (await canLaunch(linkUrl)) {
       await launch(linkUrl);
     } else {
@@ -113,4 +121,14 @@ class _SafhatussaalihiinState extends State<Safhatussaalihiin> {
     }
   }
 
+  Future<void> _reloadPage() async {
+    setState(() {
+      widget.dataProvider.setPosts = [];
+      widget.dataProvider.setTodayPosts = [];
+      widget.dataProvider.setRadioList = [];
+      widget.dataProvider.setStreams = [];
+      widget.dataProvider.getAllPosts();
+      widget.dataProvider.getAllStreams();
+    });
+  }
 }

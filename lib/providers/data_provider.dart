@@ -18,6 +18,9 @@ import 'package:flutter/material.dart';
 
 class DataProvider extends ChangeNotifier {
   bool showSearchBar = false;
+  bool isPageLoading = false;
+  String downloadButtonText = "Save";
+  String mediaNameOnDownlod = "";
   DateTime today = DateTime.now();
   //
   //
@@ -28,6 +31,8 @@ class DataProvider extends ChangeNotifier {
 
   List<LiveStream> get streams => _streams;
   List<String> get radioList => _radioList;
+  set setStreams(List emptyStreams) => _streams = [];
+  set setRadioList(List emptyRadioList) => _radioList = [];
 
   Future<void> getAllStreams() async {
     List<LiveStream> _fetchedStreams = [];
@@ -65,6 +70,8 @@ class DataProvider extends ChangeNotifier {
 
   List<Post> get posts => _posts;
   List<Post> get todayPosts => _todayPosts;
+  set setPosts(List emptyPosts) => _posts = [];
+  set setTodayPosts(List todayPosts) => _todayPosts = [];
 
   Future<void> getAllPosts() async {
     List<Post> _fetchedPosts = [];
@@ -104,10 +111,16 @@ class DataProvider extends ChangeNotifier {
     String savePath = appDocDir.path + "/temp.mp4";
     await Dio().download(fileUrl, savePath, onReceiveProgress: (count, total) {
       print((count / total * 100).toStringAsFixed(0) + "%");
+      mediaNameOnDownlod = fileUrl;
+      downloadButtonText =
+          "Saving... " + (count / total * 100).toStringAsFixed(0) + "%";
+      notifyListeners();
     });
     final result = await ImageGallerySaver.saveFile(savePath);
     print(result);
     _toastInfo("$result");
+    downloadButtonText = "Save";
+    mediaNameOnDownlod = "";
     notifyListeners();
   }
 
@@ -134,6 +147,6 @@ class DataProvider extends ChangeNotifier {
 
     final info = statuses[Permission.storage].toString();
     print(info);
-    _toastInfo(info);
+    // _toastInfo(info);
   }
 }

@@ -29,7 +29,7 @@ class _SearchedMediaState extends State<SearchedMedia> {
 
   @override
   Widget build(BuildContext context) {
-    final _dataObject = Provider.of<DataProvider>(context);
+    final _dataProvider = Provider.of<DataProvider>(context);
 
     var dateParse = DateTime.parse(widget.searchedDate.toString());
     return Scaffold(
@@ -75,10 +75,9 @@ class _SearchedMediaState extends State<SearchedMedia> {
                                     primary: Colors.black.withOpacity(0.4)),
                                 onPressed: () {
                                   setState(() {
-                                    _dataObject.saveNetworkImage(api +
+                                    _dataProvider.saveNetworkImage(api +
                                         "post/picture_file_1/" +
-                                        widget.posts[index].id
-                                            .toString());
+                                        widget.posts[index].id.toString());
                                   });
                                 },
                                 icon: Icon(
@@ -118,7 +117,7 @@ class _SearchedMediaState extends State<SearchedMedia> {
                                               Colors.black.withOpacity(0.4)),
                                       onPressed: () {
                                         setState(() {
-                                          _dataObject.saveNetworkImage(api +
+                                          _dataProvider.saveNetworkImage(api +
                                               "post/picture_file_2/" +
                                               widget.posts[index].id
                                                   .toString());
@@ -162,7 +161,7 @@ class _SearchedMediaState extends State<SearchedMedia> {
                                               Colors.black.withOpacity(0.4)),
                                       onPressed: () {
                                         setState(() {
-                                          _dataObject.saveNetworkImage(api +
+                                          _dataProvider.saveNetworkImage(api +
                                               "post/picture_file_3/" +
                                               widget.posts[index].id
                                                   .toString());
@@ -207,10 +206,9 @@ class _SearchedMediaState extends State<SearchedMedia> {
                                     primary: Colors.black.withOpacity(0.4)),
                                 onPressed: () {
                                   setState(() {
-                                    _dataObject.saveNetworkVideo(api +
+                                    _dataProvider.saveNetworkVideo(api +
                                         "post/video_file_1/" +
-                                        widget.posts[index].id
-                                            .toString());
+                                        widget.posts[index].id.toString());
                                   });
                                 },
                                 icon: Icon(
@@ -253,7 +251,7 @@ class _SearchedMediaState extends State<SearchedMedia> {
                                               Colors.black.withOpacity(0.4)),
                                       onPressed: () {
                                         setState(() {
-                                          _dataObject.saveNetworkVideo(api +
+                                          _dataProvider.saveNetworkVideo(api +
                                               "post/video_file_2/" +
                                               widget.posts[index].id
                                                   .toString());
