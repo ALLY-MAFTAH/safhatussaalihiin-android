@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:safhatussaalihiin/providers/data_provider.dart';
 import 'package:safhatussaalihiin/views/screens/live.dart';
-import 'package:safhatussaalihiin/views/screens/safhatussaalihiin.dart';
+import 'package:safhatussaalihiin/views/screens/about.dart';
 import 'package:safhatussaalihiin/views/screens/search.dart';
 import 'package:safhatussaalihiin/views/screens/today.dart';
 
@@ -26,7 +26,7 @@ class _HomeState extends State<Home> {
       Today(dataProvider: _dataProvider),
       Search(dataProvider: _dataProvider),
       Live(dataProvider: _dataProvider),
-      Safhatussaalihiin(dataProvider: _dataProvider,),
+      About(dataProvider: _dataProvider,),
     ];
     return Scaffold(
         // backgroundColor: Colors.amber[100]!.withOpacity(1),
@@ -57,7 +57,7 @@ class _HomeState extends State<Home> {
                           style: TextStyle(color: Colors.white),
                         )
                       : Text(
-                          'Safhatussaalihiin',
+                          'About',
                           style: TextStyle(color: Colors.white),
                         ),
           actions: [

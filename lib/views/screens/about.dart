@@ -4,15 +4,16 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:safhatussaalihiin/providers/data_provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-class Safhatussaalihiin extends StatefulWidget {
-   final DataProvider dataProvider;
+class About extends StatefulWidget {
+  final DataProvider dataProvider;
 
-  const Safhatussaalihiin({Key? key, required this.dataProvider}) : super(key: key);
+  const About({Key? key, required this.dataProvider})
+      : super(key: key);
   @override
-  _SafhatussaalihiinState createState() => _SafhatussaalihiinState();
+  _AboutState createState() => _AboutState();
 }
 
-class _SafhatussaalihiinState extends State<Safhatussaalihiin> {
+class _AboutState extends State<About> {
   @override
   void initState() {
     super.initState();
@@ -20,9 +21,9 @@ class _SafhatussaalihiinState extends State<Safhatussaalihiin> {
 
   @override
   Widget build(BuildContext context) {
-    return RefreshIndicator( backgroundColor: Colors.brown,
-      color: Colors.white,
-     
+    return RefreshIndicator(
+        backgroundColor: Colors.brown,
+        color: Colors.white,
         onRefresh: _reloadPage,
         child: Container(
             child: ListView(
