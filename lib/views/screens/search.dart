@@ -73,175 +73,160 @@ class _SearchState extends State<Search> {
         backgroundColor: Colors.brown,
         color: Colors.white,
         onRefresh: _reloadPage,
-        child: Container(
-            key: _scaffoldKey,
-            child: Column(children: [
-              _dataProvider.showSearchBar
-                  ? InkWell(
-                      child: Container(
-                        height: 65,
-                        padding: EdgeInsets.all(5),
-                        margin: EdgeInsets.all(4),
-                        decoration: BoxDecoration(
-                            color: Colors.brown,
-                            borderRadius: BorderRadius.only(
-                                bottomLeft: Radius.circular(10),
-                                bottomRight: Radius.circular(10))),
-                        width: MediaQuery.of(context).size.width,
-                        child: ListTile(
-                          leading: Icon(Icons.today, color: Colors.white),
-                          title: Text(
-                            "${selectedDate.toLocal()}".split(' ')[0],
-                            style: TextStyle(
-                                fontSize: 15,
-                                fontWeight: FontWeight.bold,
-                                color: Colors.white),
-                          ),
-                          trailing: Icon(
-                            FontAwesomeIcons.angleDown,
-                            color: Colors.white,
-                          ),
-                        ),
-                      ),
-                      onTap: () {
-                        setState(() {
-                          _selectDate(context);
-                        });
-                      },
-                    )
-                  : Container(),
-              Expanded(
-                child: _dataProvider.posts.isEmpty
-                    ? Center(child: CircularProgressIndicator())
-                    : CustomScrollView(
-                        physics: BouncingScrollPhysics(),
-                        slivers: [
-                          SliverList(
-                              delegate: SliverChildBuilderDelegate(
-                                  (BuildContext context, int index) {
-                            return Padding(
-                              padding:
-                                  EdgeInsets.only(left: 10, top: 5, right: 10),
-                              child: InkWell(
-                                onTap: () {
-                                  setState(() {
-                                    filteredPosts = [];
-                                    tappedDate =
-                                        _dataProvider.posts[index].date;
-                                    for (var i = 0;
-                                        i < widget.dataProvider.posts.length;
-                                        i++) {
-                                      if (widget.dataProvider.posts[i].date ==
-                                          tappedDate) {
-                                        filteredPosts
-                                            .add(widget.dataProvider.posts[i]);
-                                      }
-                                    }
-                                    Navigator.push(context,
-                                        MaterialPageRoute(builder: (_) {
-                                      return SearchedMedia(
-                                        searchedDate: tappedDate,
-                                        posts: filteredPosts,
-                                      );
-                                    }));
-                                  });
-                                },
-                                child: Column(
-                                  children: [
-                                    Card(
-                                      color: Colors.grey[300],
-                                      elevation: 8,
-                                      child: Container(
-                                        child: Image(
-                                          image: NetworkImageWithRetry(api +
-                                              "post/picture_file_1/" +
-                                              _dataProvider.posts[index].id
-                                                  .toString()),
-                                          fit: BoxFit.cover,
-                                        ),
-                                      ),
-                                    ),
-                                    _dataProvider.posts[index].pictureFile2 !=
-                                            null
-                                        ? Card(
-                                            color: Colors.grey[300],
-                                            elevation: 8,
-                                            child: Container(
-                                              child: Image(
-                                                image: NetworkImageWithRetry(
-                                                    api +
-                                                        "post/picture_file_2/" +
-                                                        _dataProvider
-                                                            .posts[index].id
-                                                            .toString()),
-                                                fit: BoxFit.cover,
-                                              ),
-                                            ),
-                                          )
-                                        : Container(),
-                                    _dataProvider.posts[index].pictureFile3 !=
-                                            null
-                                        ? Card(
-                                            color: Colors.grey[300],
-                                            elevation: 8,
-                                            child: Container(
-                                              child: Image(
-                                                image: NetworkImageWithRetry(
-                                                    api +
-                                                        "post/picture_file_3/" +
-                                                        _dataProvider
-                                                            .posts[index].id
-                                                            .toString()),
-                                                fit: BoxFit.cover,
-                                              ),
-                                            ),
-                                          )
-                                        : Container(),
-                                    Card(
-                                      color: Colors.grey[300],
-                                      elevation: 8,
-                                      child: Container(
-                                        child: BetterPlayer.network(
-                                          api +
-                                              "post/video_file_1/" +
-                                              _dataProvider.posts[index].id
-                                                  .toString(),
-                                          betterPlayerConfiguration:
-                                              BetterPlayerConfiguration(
-                                            aspectRatio: 16 / 15,
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                    _dataProvider.posts[index].videoFile2 !=
-                                            null
-                                        ? Card(
-                                            color: Colors.grey[300],
-                                            elevation: 8,
-                                            child: Container(
-                                              child: BetterPlayer.network(
-                                                api +
-                                                    "post/video_file_2/" +
-                                                    _dataProvider
-                                                        .posts[index].id
-                                                        .toString(),
-                                                betterPlayerConfiguration:
-                                                    BetterPlayerConfiguration(
-                                                  aspectRatio: 16 / 15,
-                                                ),
-                                              ),
-                                            ),
-                                          )
-                                        : Container(),
-                                  ],
+        child: CustomScrollView(
+                physics: const BouncingScrollPhysics(
+                    parent: AlwaysScrollableScrollPhysics()),
+                slivers: [
+                  SliverList(
+                      delegate: SliverChildListDelegate(<Widget>[
+                    _dataProvider.showSearchBar
+                        ? InkWell(
+                            child: Container(
+                              height: 65,
+                              padding: EdgeInsets.all(5),
+                              margin: EdgeInsets.all(4),
+                              decoration: BoxDecoration(
+                                  color: Colors.brown,
+                                  borderRadius: BorderRadius.only(
+                                      bottomLeft: Radius.circular(10),
+                                      bottomRight: Radius.circular(10))),
+                              width: MediaQuery.of(context).size.width,
+                              child: ListTile(
+                                leading: Icon(Icons.today, color: Colors.white),
+                                title: Text(
+                                  "${selectedDate.toLocal()}".split(' ')[0],
+                                  style: TextStyle(
+                                      fontSize: 15,
+                                      fontWeight: FontWeight.bold,
+                                      color: Colors.white),
+                                ),
+                                trailing: Icon(
+                                  FontAwesomeIcons.angleDown,
+                                  color: Colors.white,
                                 ),
                               ),
-                            );
-                          }, childCount: _dataProvider.posts.length)),
-                        ],
+                            ),
+                            onTap: () {
+                              setState(() {
+                                _selectDate(context);
+                              });
+                            },
+                          )
+                        : Container(),
+                  ])),
+                  SliverList(
+                      delegate: SliverChildBuilderDelegate(
+                          (BuildContext context, int index) {
+                    return  _dataProvider.posts.isEmpty
+            ? Center(heightFactor: 15, child: CircularProgressIndicator())
+            : Padding(
+                      padding: EdgeInsets.only(left: 10, top: 5, right: 10),
+                      child: InkWell(
+                        onTap: () {
+                          setState(() {
+                            filteredPosts = [];
+                            tappedDate = _dataProvider.posts[index].date;
+                            for (var i = 0;
+                                i < widget.dataProvider.posts.length;
+                                i++) {
+                              if (widget.dataProvider.posts[i].date ==
+                                  tappedDate) {
+                                filteredPosts.add(widget.dataProvider.posts[i]);
+                              }
+                            }
+                            Navigator.push(context,
+                                MaterialPageRoute(builder: (_) {
+                              return SearchedMedia(
+                                searchedDate: tappedDate,
+                                posts: filteredPosts,
+                              );
+                            }));
+                          });
+                        },
+                        child: Column(
+                          children: [
+                            Card(
+                              color: Colors.grey[300],
+                              elevation: 8,
+                              child: Container(
+                                child: Image(
+                                  image: NetworkImageWithRetry(api +
+                                      "post/picture_file_1/" +
+                                      _dataProvider.posts[index].id.toString()),
+                                  fit: BoxFit.cover,
+                                ),
+                              ),
+                            ),
+                            _dataProvider.posts[index].pictureFile2 != null
+                                ? Card(
+                                    color: Colors.grey[300],
+                                    elevation: 8,
+                                    child: Container(
+                                      child: Image(
+                                        image: NetworkImageWithRetry(api +
+                                            "post/picture_file_2/" +
+                                            _dataProvider.posts[index].id
+                                                .toString()),
+                                        fit: BoxFit.cover,
+                                      ),
+                                    ),
+                                  )
+                                : Container(),
+                            _dataProvider.posts[index].pictureFile3 != null
+                                ? Card(
+                                    color: Colors.grey[300],
+                                    elevation: 8,
+                                    child: Container(
+                                      child: Image(
+                                        image: NetworkImageWithRetry(api +
+                                            "post/picture_file_3/" +
+                                            _dataProvider.posts[index].id
+                                                .toString()),
+                                        fit: BoxFit.cover,
+                                      ),
+                                    ),
+                                  )
+                                : Container(),
+                            Card(
+                              color: Colors.grey[300],
+                              elevation: 8,
+                              child: Container(
+                                child: BetterPlayer.network(
+                                  api +
+                                      "post/video_file_1/" +
+                                      _dataProvider.posts[index].id.toString(),
+                                  betterPlayerConfiguration:
+                                      BetterPlayerConfiguration(
+                                    aspectRatio: 16 / 15,
+                                  ),
+                                ),
+                              ),
+                            ),
+                            _dataProvider.posts[index].videoFile2 != null
+                                ? Card(
+                                    color: Colors.grey[300],
+                                    elevation: 8,
+                                    child: Container(
+                                      child: BetterPlayer.network(
+                                        api +
+                                            "post/video_file_2/" +
+                                            _dataProvider.posts[index].id
+                                                .toString(),
+                                        betterPlayerConfiguration:
+                                            BetterPlayerConfiguration(
+                                          aspectRatio: 16 / 15,
+                                        ),
+                                      ),
+                                    ),
+                                  )
+                                : Container(),
+                          ],
+                        ),
                       ),
-              )
-            ])));
+                    );
+                  }, childCount: _dataProvider.posts.length)),
+                ],
+              ));
   }
 
   Future<void> _reloadPage() async {

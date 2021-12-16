@@ -7,8 +7,7 @@ import 'package:url_launcher/url_launcher.dart';
 class About extends StatefulWidget {
   final DataProvider dataProvider;
 
-  const About({Key? key, required this.dataProvider})
-      : super(key: key);
+  const About({Key? key, required this.dataProvider}) : super(key: key);
   @override
   _AboutState createState() => _AboutState();
 }
@@ -25,8 +24,9 @@ class _AboutState extends State<About> {
         backgroundColor: Colors.brown,
         color: Colors.white,
         onRefresh: _reloadPage,
-        child: Container(
-            child: ListView(
+        child: ListView(
+          physics: const BouncingScrollPhysics(
+              parent: AlwaysScrollableScrollPhysics()),
           children: [
             Image(
               image: AssetImage("assets/icons/safhatussaalihiin.png"),
@@ -111,7 +111,7 @@ class _AboutState extends State<About> {
                   image: AssetImage("assets/images/Picture5.png")),
             ),
           ],
-        )));
+        ));
   }
 
   void _launchURL(String linkUrl) async {
