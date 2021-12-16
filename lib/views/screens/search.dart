@@ -114,285 +114,132 @@ class _SearchState extends State<Search> {
                 child: _dataProvider.posts.isEmpty
                     ? Center(child: CircularProgressIndicator())
                     : CustomScrollView(
-                  physics: BouncingScrollPhysics(),
-                  slivers: [
-                    SliverList(
-                        delegate: SliverChildBuilderDelegate(
-                            (BuildContext context, int index) {
-                      return Padding(
-                        padding: EdgeInsets.only(left: 10, top: 5, right: 10),
-                        child: InkWell(
-                          onTap: () {
-                            setState(() {
-                              filteredPosts = [];
-                              tappedDate = _dataProvider.posts[index].date;
-                              for (var i = 0;
-                                  i < widget.dataProvider.posts.length;
-                                  i++) {
-                                if (widget.dataProvider.posts[i].date ==
-                                    tappedDate) {
-                                  filteredPosts
-                                      .add(widget.dataProvider.posts[i]);
-                                }
-                              }
-                              Navigator.push(context,
-                                  MaterialPageRoute(builder: (_) {
-                                return SearchedMedia(
-                                  searchedDate: tappedDate,
-                                  posts: filteredPosts,
-                                );
-                              }));
-                            });
-                          },
-                          child: Column(
-                            children: [
-                              Card(
-                                color: Colors.grey[300],
-                                elevation: 8,
+                        physics: BouncingScrollPhysics(),
+                        slivers: [
+                          SliverList(
+                              delegate: SliverChildBuilderDelegate(
+                                  (BuildContext context, int index) {
+                            return Padding(
+                              padding:
+                                  EdgeInsets.only(left: 10, top: 5, right: 10),
+                              child: InkWell(
+                                onTap: () {
+                                  setState(() {
+                                    filteredPosts = [];
+                                    tappedDate =
+                                        _dataProvider.posts[index].date;
+                                    for (var i = 0;
+                                        i < widget.dataProvider.posts.length;
+                                        i++) {
+                                      if (widget.dataProvider.posts[i].date ==
+                                          tappedDate) {
+                                        filteredPosts
+                                            .add(widget.dataProvider.posts[i]);
+                                      }
+                                    }
+                                    Navigator.push(context,
+                                        MaterialPageRoute(builder: (_) {
+                                      return SearchedMedia(
+                                        searchedDate: tappedDate,
+                                        posts: filteredPosts,
+                                      );
+                                    }));
+                                  });
+                                },
                                 child: Column(
                                   children: [
-                                    Container(
-                                      child: Image(
-                                        image: NetworkImageWithRetry(api +
-                                            "post/picture_file_1/" +
-                                            _dataProvider.posts[index].id
-                                                .toString()),
-                                        fit: BoxFit.cover,
-                                      ),
-                                    ),
-                                    Container(
-                                      color: Colors.brown,
-                                      height: 1.5,
-                                    ),
-                                    Container(
-                                      child: TextButton.icon(
-                                          style: TextButton.styleFrom(
-                                              primary: Colors.black
-                                                  .withOpacity(0.4)),
-                                          onPressed: () {
-                                            setState(() {
-                                              _dataProvider.saveNetworkImage(
-                                                  api +
-                                                      "post/picture_file_1/" +
-                                                      _dataProvider
-                                                          .posts[index].id
-                                                          .toString());
-                                            });
-                                          },
-                                          icon: Icon(
-                                            FontAwesomeIcons.download,
-                                            size: 18,
-                                            color: Colors.brown[900],
-                                          ),
-                                          label: Text("Save",
-                                              style: TextStyle(
-                                                  color: Colors.brown[900]))),
-                                    )
-                                  ],
-                                ),
-                              ),
-                              _dataProvider.posts[index].pictureFile2 != null
-                                  ? Card(
+                                    Card(
                                       color: Colors.grey[300],
                                       elevation: 8,
-                                      child: Column(
-                                        children: [
-                                          Container(
-                                            child: Image(
-                                              image: NetworkImageWithRetry(api +
-                                                  "post/picture_file_2/" +
-                                                  _dataProvider.posts[index].id
-                                                      .toString()),
-                                              fit: BoxFit.cover,
-                                            ),
-                                          ),
-                                          Container(
-                                            color: Colors.brown,
-                                            height: 1.5,
-                                          ),
-                                          Container(
-                                            child: TextButton.icon(
-                                                style: TextButton.styleFrom(
-                                                    primary: Colors.black
-                                                        .withOpacity(0.4)),
-                                                onPressed: () {
-                                                  setState(() {
-                                                    _dataProvider
-                                                        .saveNetworkImage(api +
-                                                            "post/picture_file_2/" +
-                                                            _dataProvider
-                                                                .posts[index].id
-                                                                .toString());
-                                                  });
-                                                },
-                                                icon: Icon(
-                                                  FontAwesomeIcons.download,
-                                                  size: 18,
-                                                  color: Colors.brown[900],
-                                                ),
-                                                label: Text("Save",
-                                                    style: TextStyle(
-                                                        color: Colors
-                                                            .brown[900]))),
-                                          )
-                                        ],
-                                      ),
-                                    )
-                                  : Container(),
-                              _dataProvider.posts[index].pictureFile3 != null
-                                  ? Card(
-                                      color: Colors.grey[300],
-                                      elevation: 8,
-                                      child: Column(
-                                        children: [
-                                          Container(
-                                            child: Image(
-                                              image: NetworkImageWithRetry(api +
-                                                  "post/picture_file_3/" +
-                                                  _dataProvider.posts[index].id
-                                                      .toString()),
-                                              fit: BoxFit.cover,
-                                            ),
-                                          ),
-                                          Container(
-                                            color: Colors.brown,
-                                            height: 1.5,
-                                          ),
-                                          Container(
-                                            child: TextButton.icon(
-                                                style: TextButton.styleFrom(
-                                                    primary: Colors.black
-                                                        .withOpacity(0.4)),
-                                                onPressed: () {
-                                                  setState(() {
-                                                    _dataProvider
-                                                        .saveNetworkImage(api +
-                                                            "post/picture_file_3/" +
-                                                            _dataProvider
-                                                                .posts[index].id
-                                                                .toString());
-                                                  });
-                                                },
-                                                icon: Icon(
-                                                  FontAwesomeIcons.download,
-                                                  size: 18,
-                                                  color: Colors.brown[900],
-                                                ),
-                                                label: Text("Save",
-                                                    style: TextStyle(
-                                                        color: Colors
-                                                            .brown[900]))),
-                                          )
-                                        ],
-                                      ),
-                                    )
-                                  : Container(),
-                              Card(
-                                color: Colors.grey[300],
-                                elevation: 8,
-                                child: Column(
-                                  children: [
-                                    Container(
-                                      child: BetterPlayer.network(
-                                        api +
-                                            "post/video_file_1/" +
-                                            _dataProvider.posts[index].id
-                                                .toString(),
-                                        betterPlayerConfiguration:
-                                            BetterPlayerConfiguration(
-                                          aspectRatio: 16 / 15,
+                                      child: Container(
+                                        child: Image(
+                                          image: NetworkImageWithRetry(api +
+                                              "post/picture_file_1/" +
+                                              _dataProvider.posts[index].id
+                                                  .toString()),
+                                          fit: BoxFit.cover,
                                         ),
                                       ),
                                     ),
-                                    Container(
-                                      color: Colors.brown,
-                                      height: 1.5,
-                                    ),
-                                    Container(
-                                      child: TextButton.icon(
-                                          style: TextButton.styleFrom(
-                                              primary: Colors.black
-                                                  .withOpacity(0.4)),
-                                          onPressed: () {
-                                            setState(() {
-                                              _dataProvider.saveNetworkVideo(
-                                                  api +
-                                                      "post/video_file_1/" +
-                                                      _dataProvider
-                                                          .posts[index].id
-                                                          .toString());
-                                            });
-                                          },
-                                          icon: Icon(
-                                            FontAwesomeIcons.download,
-                                            size: 18,
-                                            color: Colors.brown[900],
+                                    _dataProvider.posts[index].pictureFile2 !=
+                                            null
+                                        ? Card(
+                                            color: Colors.grey[300],
+                                            elevation: 8,
+                                            child: Container(
+                                              child: Image(
+                                                image: NetworkImageWithRetry(
+                                                    api +
+                                                        "post/picture_file_2/" +
+                                                        _dataProvider
+                                                            .posts[index].id
+                                                            .toString()),
+                                                fit: BoxFit.cover,
+                                              ),
+                                            ),
+                                          )
+                                        : Container(),
+                                    _dataProvider.posts[index].pictureFile3 !=
+                                            null
+                                        ? Card(
+                                            color: Colors.grey[300],
+                                            elevation: 8,
+                                            child: Container(
+                                              child: Image(
+                                                image: NetworkImageWithRetry(
+                                                    api +
+                                                        "post/picture_file_3/" +
+                                                        _dataProvider
+                                                            .posts[index].id
+                                                            .toString()),
+                                                fit: BoxFit.cover,
+                                              ),
+                                            ),
+                                          )
+                                        : Container(),
+                                    Card(
+                                      color: Colors.grey[300],
+                                      elevation: 8,
+                                      child: Container(
+                                        child: BetterPlayer.network(
+                                          api +
+                                              "post/video_file_1/" +
+                                              _dataProvider.posts[index].id
+                                                  .toString(),
+                                          betterPlayerConfiguration:
+                                              BetterPlayerConfiguration(
+                                            aspectRatio: 16 / 15,
                                           ),
-                                          label: Text("Save",
-                                              style: TextStyle(
-                                                  color: Colors.brown[900]))),
-                                    )
+                                        ),
+                                      ),
+                                    ),
+                                    _dataProvider.posts[index].videoFile2 !=
+                                            null
+                                        ? Card(
+                                            color: Colors.grey[300],
+                                            elevation: 8,
+                                            child: Container(
+                                              child: BetterPlayer.network(
+                                                api +
+                                                    "post/video_file_2/" +
+                                                    _dataProvider
+                                                        .posts[index].id
+                                                        .toString(),
+                                                betterPlayerConfiguration:
+                                                    BetterPlayerConfiguration(
+                                                  aspectRatio: 16 / 15,
+                                                ),
+                                              ),
+                                            ),
+                                          )
+                                        : Container(),
                                   ],
                                 ),
                               ),
-                              _dataProvider.posts[index].videoFile2 != null
-                                  ? Card(
-                                      color: Colors.grey[300],
-                                      elevation: 8,
-                                      child: Column(
-                                        children: [
-                                          Container(
-                                            child: BetterPlayer.network(
-                                              api +
-                                                  "post/video_file_2/" +
-                                                  _dataProvider.posts[index].id
-                                                      .toString(),
-                                              betterPlayerConfiguration:
-                                                  BetterPlayerConfiguration(
-                                                aspectRatio: 16 / 15,
-                                              ),
-                                            ),
-                                          ),
-                                          Container(
-                                            color: Colors.brown,
-                                            height: 1.5,
-                                          ),
-                                          Container(
-                                            child: TextButton.icon(
-                                                style: TextButton.styleFrom(
-                                                    primary: Colors.black
-                                                        .withOpacity(0.4)),
-                                                onPressed: () {
-                                                  setState(() {
-                                                    _dataProvider
-                                                        .saveNetworkVideo(api +
-                                                            "post/video_file_2/" +
-                                                            _dataProvider
-                                                                .posts[index].id
-                                                                .toString());
-                                                  });
-                                                },
-                                                icon: Icon(
-                                                  FontAwesomeIcons.download,
-                                                  size: 18,
-                                                  color: Colors.brown[900],
-                                                ),
-                                                label: Text("Save",
-                                                    style: TextStyle(
-                                                        color: Colors
-                                                            .brown[900]))),
-                                          )
-                                        ],
-                                      ),
-                                    )
-                                  : Container(),
-                            ],
-                          ),
-                        ),
-                      );
-                    }, childCount: _dataProvider.posts.length)),
-                  ],
-                ),
+                            );
+                          }, childCount: _dataProvider.posts.length)),
+                        ],
+                      ),
               )
             ])));
   }

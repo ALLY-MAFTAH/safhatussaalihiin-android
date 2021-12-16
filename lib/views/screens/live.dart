@@ -146,6 +146,7 @@ class _LiveState extends State<Live> {
                                     .toString())),
                       ),
                       Container(
+                        margin: EdgeInsets.only(top: 10),
                         height: 85,
                         width: 85,
                         decoration: BoxDecoration(
