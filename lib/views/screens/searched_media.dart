@@ -201,24 +201,36 @@ class _SearchedMediaState extends State<SearchedMedia> {
                             height: 1.5,
                           ),
                           Container(
-                            child: TextButton.icon(
-                                style: TextButton.styleFrom(
-                                    primary: Colors.black.withOpacity(0.4)),
-                                onPressed: () {
-                                  setState(() {
-                                    _dataProvider.saveNetworkVideo(api +
+                            child: _dataProvider.mediaNameOnDownlod !=
+                                    api +
                                         "post/video_file_1/" +
-                                        widget.posts[index].id.toString());
-                                  });
-                                },
-                                icon: Icon(
-                                  FontAwesomeIcons.download,
-                                  size: 18,
-                                  color: Colors.brown[900],
-                                ),
-                                label: Text("Save",
-                                    style:
-                                        TextStyle(color: Colors.brown[900]))),
+                                        widget.posts[index].id.toString()
+                                ? TextButton.icon(
+                                    style: TextButton.styleFrom(
+                                        primary: Colors.black.withOpacity(0.4)),
+                                    onPressed: () {
+                                      setState(() {
+                                        _dataProvider.saveNetworkVideo(api +
+                                            "post/video_file_1/" +
+                                            widget.posts[index].id.toString());
+                                      });
+                                    },
+                                    icon: Icon(
+                                      FontAwesomeIcons.download,
+                                      size: 18,
+                                      color: Colors.brown[900],
+                                    ),
+                                    label: Text("Save",
+                                        style: TextStyle(
+                                            color: Colors.brown[900])))
+                                : Center(
+                                    heightFactor: 2,
+                                    child: Text(
+                                        _dataProvider.downloadButtonText,
+                                        style: TextStyle(
+                                            fontSize: 18,
+                                            color: Colors.brown[900])),
+                                  ),
                           )
                         ],
                       ),
@@ -245,26 +257,39 @@ class _SearchedMediaState extends State<SearchedMedia> {
                                   height: 1.5,
                                 ),
                                 Container(
-                                  child: TextButton.icon(
-                                      style: TextButton.styleFrom(
-                                          primary:
-                                              Colors.black.withOpacity(0.4)),
-                                      onPressed: () {
-                                        setState(() {
-                                          _dataProvider.saveNetworkVideo(api +
+                                  child: _dataProvider.mediaNameOnDownlod !=
+                                          api +
                                               "post/video_file_2/" +
-                                              widget.posts[index].id
-                                                  .toString());
-                                        });
-                                      },
-                                      icon: Icon(
-                                        FontAwesomeIcons.download,
-                                        size: 18,
-                                        color: Colors.brown[900],
-                                      ),
-                                      label: Text("Save",
-                                          style: TextStyle(
-                                              color: Colors.brown[900]))),
+                                              widget.posts[index].id.toString()
+                                      ? TextButton.icon(
+                                          style: TextButton.styleFrom(
+                                              primary: Colors.black
+                                                  .withOpacity(0.4)),
+                                          onPressed: () {
+                                            setState(() {
+                                              _dataProvider.saveNetworkVideo(
+                                                  api +
+                                                      "post/video_file_2/" +
+                                                      widget.posts[index].id
+                                                          .toString());
+                                            });
+                                          },
+                                          icon: Icon(
+                                            FontAwesomeIcons.download,
+                                            size: 18,
+                                            color: Colors.brown[900],
+                                          ),
+                                          label: Text("Save",
+                                              style: TextStyle(
+                                                  color: Colors.brown[900])))
+                                      : Center(
+                                          heightFactor: 2,
+                                          child: Text(
+                                              _dataProvider.downloadButtonText,
+                                              style: TextStyle(
+                                                  fontSize: 18,
+                                                  color: Colors.brown[900])),
+                                        ),
                                 )
                               ],
                             ),
